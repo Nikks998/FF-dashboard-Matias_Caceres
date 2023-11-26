@@ -28,5 +28,5 @@ ContentRowItem.propTypes = {
 }
 
 ContentRowItem.defaultProps = {
-    color : 'info'
+    color: "danger"
 }
