@@ -9,7 +9,7 @@ export const TableItem = ({title, length, rating, genre, awards}) => {
             <td>
                 <ul>
                     {
-                        genre.name /* genres.map((genre, index) => <li key={index}>{genre}</li> ) */
+                        genre?.name /* genres.map((genre, index) => <li key={index}>{genre}</li> ) */
                     }
                 </ul>
             </td>
