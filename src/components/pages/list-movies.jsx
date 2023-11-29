@@ -1,5 +1,6 @@
 import { Card, CardBody, Col, Row, Table } from "react-bootstrap"
 import { TableItem } from "../TableItem"
+import { AnimatedPage } from "../AnimatedPage"
 
 export const ListMovies = () => {
 
@@ -48,29 +49,31 @@ export const ListMovies = () => {
     ]
 
     return (
-        <Row>
-            <Col>
-                <Card className="shadow">
-                    <CardBody>
-                        <Table striped borderless hover>
-                            <thead>
-                                <tr>
-                                    <th>Titulo</th>
-                                    <th>Duracion</th>
-                                    <th>Rating</th>
-                                    <th>Generos</th>
-                                    <th>Premios</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    movies.map(({ id, title, length, awards, rating, genres }) => <TableItem key={id} title={title} awards={awards} length={length} rating={rating} genres={genres} />)
-                                }
-                            </tbody>
-                        </Table>
-                    </CardBody>
-                </Card>
-            </Col>
-        </Row>
+        <AnimatedPage>
+            <Row>
+                <Col>
+                    <Card className="shadow">
+                        <CardBody>
+                            <Table striped borderless hover>
+                                <thead>
+                                    <tr>
+                                        <th>Titulo</th>
+                                        <th>Duracion</th>
+                                        <th>Rating</th>
+                                        <th>Generos</th>
+                                        <th>Premios</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        movies.map(({ id, title, length, awards, rating, genres }) => <TableItem key={id} title={title} awards={awards} length={length} rating={rating} genres={genres} />)
+                                    }
+                                </tbody>
+                            </Table>
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+        </AnimatedPage>
     )
 }
