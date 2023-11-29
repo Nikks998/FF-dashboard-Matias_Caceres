@@ -1,5 +1,9 @@
+import { Link, useLocation } from "react-router-dom"
 
 export const Sidebar = () => {
+
+    const {pathname} = useLocation()
+
     return (
         <ul className="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -27,25 +31,27 @@ export const Sidebar = () => {
             <div className="sidebar-heading">Actions</div>
 
 
-            <li className="nav-item">
-                <a className="nav-link collapsed" href="/">
-                    <i className="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
+            <li className={`nav-item ${pathname === '/' && 'active'}`}>
+                <Link className="nav-link collapsed" to="/">
+                    <i className="fas fa-fw fa-home"></i>
+                    <span>HOME</span>
+                </Link>
             </li>
 
 
-            <li className="nav-item">
-                <a className="nav-link" href="/">
-                    <i className="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+            <li className={`nav-item ${pathname === '/movies' && 'active'}`}>
+                <Link className="nav-link" to="/movies">
+                    <i className="fas fa-fw fa-film"></i>
+                    <span>PELICULAS</span>
+                </Link>
             </li>
 
 
-            <li className="nav-item">
-                <a className="nav-link" href="/">
-                    <i className="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+            <li className={`nav-item ${pathname === '/actors' && 'active'}`}>
+                <Link className="nav-link" to="/">
+                    <i className="fas fa-fw fa-users"></i>
+                    <span>ACTORES</span>
+                </Link>
             </li>
 
 
