@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export const TableItem = ({title, length, rating, genres, awards}) => {
+export const TableItem = ({title, length, rating, genre, awards}) => {
     return (
         <tr>
             <td>{title}</td>
@@ -9,7 +9,7 @@ export const TableItem = ({title, length, rating, genres, awards}) => {
             <td>
                 <ul>
                     {
-                        genres.map((genre, index) => <li key={index}>{genre}</li> )
+                        genre.name /* genres.map((genre, index) => <li key={index}>{genre}</li> ) */
                     }
                 </ul>
             </td>
@@ -21,11 +21,11 @@ export const TableItem = ({title, length, rating, genres, awards}) => {
 TableItem.propTypes = {
     title: PropTypes.string,
     length: PropTypes.number,
-    rating: PropTypes.number,
-    genres: PropTypes.array,
+    rating: PropTypes.string,
+    genre: PropTypes.object,
     awards: PropTypes.number
 }
 
 TableItem.defaultProps = {
-    genres: ["Sin genero asignado"]
+    genre: "Sin genero asignado"
 }

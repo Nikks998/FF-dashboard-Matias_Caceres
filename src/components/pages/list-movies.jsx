@@ -1,79 +1,64 @@
-import { Card, CardBody, Col, Row, Table } from "react-bootstrap"
+import { Card, CardBody, Table } from "react-bootstrap"
 import { TableItem } from "../TableItem"
 import { AnimatedPage } from "../AnimatedPage"
+import { useEffect, useState } from "react"
+import { Loading } from "../Loading"
 
 export const ListMovies = () => {
 
-    const movies = [
-        {
-            id: crypto.randomUUID(),
-            title: "Rambo",
-            length: 120,
-            rating: 9,
-            genres: [
-                "Accion",
-                "Belico"
-            ],
-            awards: 12
-        },
-        {
-            id: crypto.randomUUID(),
-            title: "Mi Pobre Angelito",
-            length: 110,
-            rating: 8,
-            genres: [
-                "Comedia",
-                "Drama"
-            ],
-            awards: 8
-        },
-        {
-            id: crypto.randomUUID(),
-            title: "Batman",
-            length: 130,
-            rating: 15,
-            genres: [
-                "Accion",
-                "Aventura"
-            ],
-            awards: 20
-        },
-        {
-            id: crypto.randomUUID(),
-            title: "Degenerada",
-            length: 80,
-            rating: 5,
-            /* genres: null, */
-            awards: 3
+    const [movies, setMovies] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const getMovies = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/api/v1/movies`)
+                const result = await response.json()
+
+                setLoading(false)
+                setMovies(result.data)
+            } catch (error) {
+                console.log(error)
+            }
         }
-    ]
+
+        getMovies()
+    }, [])
 
     return (
-        <AnimatedPage>
-            <Row>
-                <Col>
-                    <Card className="shadow">
-                        <CardBody>
-                            <Table striped borderless hover>
-                                <thead>
-                                    <tr>
-                                        <th>Titulo</th>
-                                        <th>Duracion</th>
-                                        <th>Rating</th>
-                                        <th>Generos</th>
-                                        <th>Premios</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        movies.map(({ id, title, length, awards, rating, genres }) => <TableItem key={id} title={title} awards={awards} length={length} rating={rating} genres={genres} />)
-                                    }
-                                </tbody>
-                            </Table>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-        </AnimatedPage>
+        loading ? (
+            <Loading />
+        ) : (
+            <AnimatedPage>
+                <Card className="shadow">
+                    <CardBody>
+                        <Table striped borderless hover>
+                            <thead>
+                                <tr>
+                                    <th>Titulo</th>
+                                    <th>Duracion</th>
+                                    <th>Rating</th>
+                                    <th>Generos</th>
+                                    <th>Premios</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    movies.map(({ id, title, length, awards, rating, genre }) => (
+                                        <TableItem
+                                            key={id}
+                                            title={title}
+                                            awards={awards}
+                                            length={length}
+                                            rating={rating}
+                                            genre={genre} />
+                                    ))
+                                }
+                            </tbody>
+                        </Table>
+                    </CardBody>
+                </Card>
+            </AnimatedPage>
+        )
     )
 }
