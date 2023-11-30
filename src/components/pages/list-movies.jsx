@@ -3,6 +3,8 @@ import { TableItem } from "../TableItem"
 import { AnimatedPage } from "../AnimatedPage"
 import { useEffect, useState } from "react"
 import { Loading } from "../Loading"
+import { Paginator } from "../Paginator"
+import { FormSearch } from "../FormSearch"
 
 export const ListMovies = () => {
 
@@ -41,31 +43,9 @@ export const ListMovies = () => {
             <AnimatedPage>
                 <Card className="shadow">
                     <CardBody>
-                        <div className="d-flex justify-content-end">
-                            <nav aria-label="Page navigation">
-                                <ul className="pagination">
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    {
-                                        pagination.pages.map(paginate => (
-                                            <li key={paginate.number} className={`page-item ${paginate.number === pagination.currentPage && 'active'}`}>
-                                                <a className="page-link" href="#" onClick={() => handlePagination(event, paginate.url)}>
-                                                    {paginate.number}
-                                                </a>
-                                            </li>
-                                        ))
-                                    }
-
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                        <div className="d-flex justify-content-between">
+                            <FormSearch getMovies={getMovies}/>
+                            <Paginator pagination={pagination} handlePagination={handlePagination} />
                         </div>
                         <Table striped borderless hover>
                             <thead>
