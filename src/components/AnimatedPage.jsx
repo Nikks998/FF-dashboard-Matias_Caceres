@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import PropTypes from 'prop-types'
 
 const animations = {
     initial: { x: 100 },
@@ -12,4 +13,8 @@ export const AnimatedPage = ({ children }) => {
             {children}
         </motion.div>
     )
+}
+
+AnimatedPage.propTypes = {
+    children: PropTypes.node
 }
