@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export const TableItem = ({title, length, rating, genre, awards}) => {
+export const TableItem = ({ title, length, rating, genre, awards }) => {
     return (
         <tr>
             <td>{title}</td>
@@ -14,6 +14,16 @@ export const TableItem = ({title, length, rating, genre, awards}) => {
                 </ul>
             </td>
             <td>{awards}</td>
+            <td>
+                <div className="d-flex">
+                    <button className='btn btn-outline-success btn-sm mr-3'>
+                        <i className='fa fa-pencil-alt'></i>
+                    </button>
+                    <button className='btn btn-outline-danger btn-sm'>
+                        <i className='fa fa-trash'></i>
+                    </button>
+                </div>
+            </td>
         </tr>
     )
 }
