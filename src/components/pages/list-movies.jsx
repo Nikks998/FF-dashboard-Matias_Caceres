@@ -6,9 +6,10 @@ import { Loading } from "../Loading"
 import { Paginator } from "../Paginator"
 import { FormSearch } from "../FormSearch"
 import { FormMovie } from "../FormMovie"
+import { showMessageSuccess } from "../Toast"
 
 export const ListMovies = () => {
-
+    const [movie, setMovie] = useState(null)
     const [movies, setMovies] = useState([])
     const [loading, setLoading] = useState(true)
     const [pagination, setPagination] = useState()
@@ -37,6 +38,35 @@ export const ListMovies = () => {
         getMovies(endpoint)
     }
 
+    const handleAddMovie = async (data) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/movies`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            const result = await response.json()
+            showMessageSuccess(result.message)
+            getMovies()
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleEditMovie = async (id) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/movies/${id}`)
+            const result = await response.json()
+            result.ok && setMovie(result.data)
+            console.log(movie)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         loading ? (
             <Loading />
@@ -46,11 +76,11 @@ export const ListMovies = () => {
                     <Card className="mb-3">
                         <Card.Header>
                             <Card.Title>
-                                Agregar Pelicula
+                                {movie ? 'Editar' : 'Agregar'} Pelicula
                             </Card.Title>
                         </Card.Header>
                         <Card.Body>
-                            <FormMovie />
+                            <FormMovie handleAddMovie={handleAddMovie} movie={movie} setMovie={setMovie}/>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -75,14 +105,12 @@ export const ListMovies = () => {
                                     </thead>
                                     <tbody>
                                         {
-                                            movies.map(({ id, title, length, awards, rating, genre }) => (
+                                            movies.map((movie) => (
                                                 <TableItem
-                                                    key={id}
-                                                    title={title}
-                                                    awards={awards}
-                                                    length={length}
-                                                    rating={rating}
-                                                    genre={genre} />
+                                                    key={movie.id}
+                                                    movie={movie}
+                                                    handleEditMovie={handleEditMovie}
+                                                />
                                             ))
                                         }
                                     </tbody>
