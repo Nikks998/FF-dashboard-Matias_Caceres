@@ -67,6 +67,25 @@ export const ListMovies = () => {
         }
     }
 
+    const handleUpdateMovie = async (id, data) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/movies/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            const result = await response.json()
+
+            setMovies(movies.map(movie => movie.id === result.data.id ? result.data : movie))
+            setMovie(null)
+            showMessageSuccess(result.message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         loading ? (
             <Loading />
@@ -80,7 +99,7 @@ export const ListMovies = () => {
                             </Card.Title>
                         </Card.Header>
                         <Card.Body>
-                            <FormMovie handleAddMovie={handleAddMovie} movie={movie} setMovie={setMovie}/>
+                            <FormMovie handleAddMovie={handleAddMovie} movie={movie} setMovie={setMovie} handleUpdateMovie={handleUpdateMovie} />
                         </Card.Body>
                     </Card>
                 </Col>

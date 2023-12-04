@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap"
 import { useFormik } from 'formik'
 import PropTypes from 'prop-types'
 
-export const FormMovie = ({ handleAddMovie, movie, setMovie }) => {
+export const FormMovie = ({ handleAddMovie, handleUpdateMovie, movie, setMovie }) => {
 
     const [genres, setGenres] = useState([])
 
@@ -17,6 +17,22 @@ export const FormMovie = ({ handleAddMovie, movie, setMovie }) => {
         getGenres()
     }, [])
 
+    useEffect(() => {
+        if (movie) {
+            formik.setValues({
+                title: movie.title,
+                length: movie.length,
+                rating: movie.rating,
+                awards: movie.awards,
+                genre_id: movie.genre ? movie.genre.id : null,
+                release_date: movie.release_date.split("T")[0]
+            })
+        }
+        // eslint-disable-next-line
+    }, [movie])
+
+
+
     const formik = useFormik({
         initialValues: {
             title: "",
@@ -27,7 +43,8 @@ export const FormMovie = ({ handleAddMovie, movie, setMovie }) => {
             genre_id: ""
         },
         onSubmit: (values) => {
-            movie ? alert("actualizando..") : handleAddMovie(values)
+            movie ? handleUpdateMovie(movie.id, values) : handleAddMovie(values)
+            formik.handleReset()
         }
     })
 
@@ -41,27 +58,27 @@ export const FormMovie = ({ handleAddMovie, movie, setMovie }) => {
         <Form className="row" onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-3 col-12">
                 <Form.Label>Titulo</Form.Label>
-                <Form.Control type="text" placeholder="Titulo de la pelicula..." name="title" onChange={formik.handleChange} value={movie ? movie.title : formik.values.title} />
+                <Form.Control type="text" placeholder="Titulo de la pelicula..." name="title" onChange={formik.handleChange} value={formik.values.title} />
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Duracion</Form.Label>
-                <Form.Control type="number" name="length" onChange={formik.handleChange} value={movie ? movie.length : formik.values.length} />
+                <Form.Control type="number" placeholder="Duracion de pelicula" name="length" onChange={formik.handleChange} value={formik.values.length} />
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Rating</Form.Label>
-                <Form.Control type="number" name="rating" onChange={formik.handleChange} value={movie ? movie.rating : formik.values.rating} />
+                <Form.Control type="number" placeholder="Rating de pelicula" name="rating" onChange={formik.handleChange} value={formik.values.rating} />
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Premios</Form.Label>
-                <Form.Control type="number" name="awards" onChange={formik.handleChange} value={movie ? movie.awards : formik.values.awards} />
+                <Form.Control type="number" placeholder="Premio de pelicula" name="awards" onChange={formik.handleChange} value={formik.values.awards} />
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Fecha de estreno</Form.Label>
-                <Form.Control type="date" name="release_date" onChange={formik.handleChange} value={movie ? movie.release_date : formik.values.release_date} />
+                <Form.Control type="date" name="release_date" onChange={formik.handleChange} value={formik.values.release_date} />
             </Form.Group>
             <Form.Group className="mb-3 col-12">
                 <Form.Label>Generos</Form.Label>
-                <Form.Select className="form-control" name="genre_id" onChange={formik.handleChange} value={movie ? movie.genre_id : formik.values.genre_id}>
+                <Form.Select className="form-control" name="genre_id" onChange={formik.handleChange} value={formik.values.genre_id}>
                     <option hidden defaultChecked>Selecciona..</option>
                     {
                         genres.map(({ name, id }) => <option key={id} value={id}>{name}</option>)
@@ -85,5 +102,6 @@ export const FormMovie = ({ handleAddMovie, movie, setMovie }) => {
 FormMovie.propTypes = {
     handleAddMovie: PropTypes.func,
     movie: PropTypes.object,
-    setMovie: PropTypes.func
+    setMovie: PropTypes.func,
+    handleUpdateMovie: PropTypes.func
 }
