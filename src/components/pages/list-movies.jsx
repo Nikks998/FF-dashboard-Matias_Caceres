@@ -86,10 +86,10 @@ export const ListMovies = () => {
         }
     }
 
-    const handleDeleteMovie = async (id) => {
+    const handleDeleteMovie = async (id, title) => {
 
         Swal.fire({
-            title: "¿Esta seguro que desea eliminar la pelicula?",
+            title: `¿Esta seguro que desea eliminar la pelicula "${title}"?`,
             showDenyButton: true,
             confirmButtonText: "Si, eliminalo",
             confirmButtonColor: "red",

@@ -19,7 +19,7 @@ export const TableItem = ({ movie: {id, title,length,rating,genre,awards}, handl
                     <button className='btn btn-outline-success btn-sm mr-3' onClick={() => handleEditMovie(id)}>
                         <i className='fa fa-pencil-alt'></i>
                     </button>
-                    <button className='btn btn-outline-danger btn-sm' onClick={() => handleDeleteMovie(id)}>
+                    <button className='btn btn-outline-danger btn-sm' onClick={() => handleDeleteMovie(id, title)}>
                         <i className='fa fa-trash'></i>
                     </button>
                 </div>
