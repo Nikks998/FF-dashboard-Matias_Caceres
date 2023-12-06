@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Button, Form } from "react-bootstrap"
 import { useFormik } from 'formik'
 import PropTypes from 'prop-types'
+import { validate } from "../validations/movie-validator"
 
 export const FormMovie = ({ handleAddMovie, handleUpdateMovie, movie, setMovie }) => {
 
@@ -42,6 +43,7 @@ export const FormMovie = ({ handleAddMovie, handleUpdateMovie, movie, setMovie }
             release_date: "",
             genre_id: ""
         },
+        validate,
         onSubmit: (values) => {
             movie ? handleUpdateMovie(movie.id, values) : handleAddMovie(values)
             formik.handleReset()
@@ -58,23 +60,28 @@ export const FormMovie = ({ handleAddMovie, handleUpdateMovie, movie, setMovie }
         <Form className="row" onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-3 col-12">
                 <Form.Label>Titulo</Form.Label>
-                <Form.Control type="text" placeholder="Titulo de la pelicula..." name="title" onChange={formik.handleChange} value={formik.values.title} />
+                <Form.Control className={formik.errors.title && "is-invalid"} type="text" placeholder="Titulo de la pelicula..." name="title" onChange={formik.handleChange} value={formik.values.title} />
+                {formik.errors.title && <small className="ms-2 text-danger">{formik.errors.title}</small>}
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Duracion</Form.Label>
-                <Form.Control type="number" placeholder="Duracion de pelicula" name="length" onChange={formik.handleChange} value={formik.values.length} />
+                <Form.Control className={formik.errors.length && "is-invalid"} type="number" placeholder="Duracion de pelicula" name="length" onChange={formik.handleChange} value={formik.values.length} />
+                {formik.errors.length && <small className="ms-2 text-danger">{formik.errors.length}</small>}
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Rating</Form.Label>
-                <Form.Control type="number" placeholder="Rating de pelicula" name="rating" onChange={formik.handleChange} value={formik.values.rating} />
+                <Form.Control className={formik.errors.rating && "is-invalid"} type="number" placeholder="Rating de pelicula" name="rating" onChange={formik.handleChange} value={formik.values.rating} />
+                {formik.errors.rating && <small className="ms-2 text-danger">{formik.errors.rating}</small>}
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Premios</Form.Label>
-                <Form.Control type="number" placeholder="Premio de pelicula" name="awards" onChange={formik.handleChange} value={formik.values.awards} />
+                <Form.Control className={formik.errors.awards && "is-invalid"} type="number" placeholder="Premio de pelicula" name="awards" onChange={formik.handleChange} value={formik.values.awards} />
+                {formik.errors.awards && <small className="ms-2 text-danger">{formik.errors.awards}</small>}
             </Form.Group>
             <Form.Group className="mb-3 col-12 col-md-6">
                 <Form.Label>Fecha de estreno</Form.Label>
-                <Form.Control type="date" name="release_date" onChange={formik.handleChange} value={formik.values.release_date} />
+                <Form.Control className={formik.errors.release_date && "is-invalid"} type="date" name="release_date" onChange={formik.handleChange} value={formik.values.release_date} />
+                {formik.errors.release_date && <small className="ms-2 text-danger">{formik.errors.release_date}</small>}
             </Form.Group>
             <Form.Group className="mb-3 col-12">
                 <Form.Label>Generos</Form.Label>
@@ -84,6 +91,7 @@ export const FormMovie = ({ handleAddMovie, handleUpdateMovie, movie, setMovie }
                         genres.map(({ name, id }) => <option key={id} value={id}>{name}</option>)
                     }
                 </Form.Select>
+                {formik.errors.genre_id && <small className="ms-2 text-danger">{formik.errors.genre_id}</small>}
             </Form.Group>
             <Form.Group className="my-3 col-12">
                 <div className="d-flex justify-content-between">

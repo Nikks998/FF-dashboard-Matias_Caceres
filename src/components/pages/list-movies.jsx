@@ -7,6 +7,7 @@ import { Paginator } from "../Paginator"
 import { FormSearch } from "../FormSearch"
 import { FormMovie } from "../FormMovie"
 import { showMessageSuccess } from "../Toast"
+import Swal from "sweetalert2"
 
 export const ListMovies = () => {
     const [movie, setMovie] = useState(null)
@@ -61,7 +62,6 @@ export const ListMovies = () => {
             const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/movies/${id}`)
             const result = await response.json()
             result.ok && setMovie(result.data)
-            console.log(movie)
         } catch (error) {
             console.log(error)
         }
@@ -84,6 +84,36 @@ export const ListMovies = () => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const handleDeleteMovie = async (id) => {
+
+        Swal.fire({
+            title: "¿Esta seguro que desea eliminar la pelicula?",
+            showDenyButton: true,
+            confirmButtonText: "Si, eliminalo",
+            confirmButtonColor: "red",
+            denyButtonText: `Cancelar`,
+            denyButtonColor: "grey"
+        }).then(async (result) => {
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/movies/${id}`,
+                        {
+                            method: "DELETE",
+                        })
+                    const result = await response.json()
+
+                    if (result.ok) {
+                        showMessageSuccess(result.message)
+                        setMovies(movies.filter(movie => movie.id !== id))
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        });
     }
 
     return (
@@ -129,6 +159,7 @@ export const ListMovies = () => {
                                                     key={movie.id}
                                                     movie={movie}
                                                     handleEditMovie={handleEditMovie}
+                                                    handleDeleteMovie={handleDeleteMovie}
                                                 />
                                             ))
                                         }
